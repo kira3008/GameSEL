@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hồ Băng 6×6 — Đêm Bắc Cực</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- ====== Bầu trời đêm Bắc Cực ====== -->
+  <div class="sky" aria-hidden="true">
+    <div class="stars"></div>
+    <div class="ribbon r1"></div>
+    <div class="ribbon r2"></div>
+    <div class="ribbon r3"></div>
+    <div class="moon"></div>
+    <div class="hill h1"></div>
+    <div class="hill h2"></div>
+    <div class="snow s1"></div>
+    <div class="snow s2"></div>
+    <div class="snow s3"></div>
+  </div>
+
+  <header class="masthead">
+    <h1 class="title"><span class="flake">❄</span> Hồ Băng Đêm Bắc Cực <span class="flake">❄</span></h1>
+    <p class="tagline">Dẫn tinh linh nhỏ băng qua hồ băng dưới ánh cực quang để mở hộp quà — coi chừng hố nước!</p>
+  </header>
+
+  <main class="layout">
+
+    <!-- ====== Hồ băng (bàn chơi) ====== -->
+    <section class="board-zone">
+      <div class="board-frame">
+        <div class="board-stage">
+          <div id="board" class="board"></div>
+
+          <div class="elf-layer">
+            <div id="elfWrap" class="elf-wrap">
+              <div id="elf" class="elf">
+                <svg class="elf-svg" viewBox="0 0 64 84" aria-hidden="true">
+                  <!-- áo khoác -->
+                  <path d="M20 52 L44 52 L49 78 Q32 84 15 78 Z" fill="#2fa874"/>
+                  <path d="M15 78 Q32 84 49 78 L48 73 Q32 79 16 73 Z" fill="#e9f9ff"/>
+                  <rect x="18" y="62" width="28" height="5" rx="2.5" fill="#1d5c44"/>
+                  <rect x="29" y="61" width="7" height="7" rx="1.5" fill="#ffd166"/>
+                  <!-- khăn quàng -->
+                  <path d="M36 54 L42 69 L34 69 Z" fill="#e84d5b"/>
+                  <rect x="20" y="48" width="24" height="8" rx="4" fill="#ff5d6c"/>
+                  <!-- tai nhọn -->
+                  <path d="M19 37 L11 30 L20 28.5 Z" fill="#ffe3c7"/>
+                  <path d="M45 37 L53 30 L44 28.5 Z" fill="#ffe3c7"/>
+                  <!-- đầu -->
+                  <circle cx="32" cy="36" r="14" fill="#ffe3c7"/>
+                  <circle cx="25" cy="40.5" r="3" fill="#ffadad"/>
+                  <circle cx="39" cy="40.5" r="3" fill="#ffadad"/>
+                  <circle cx="26.5" cy="34" r="2" fill="#33222b"/>
+                  <circle cx="37.5" cy="34" r="2" fill="#33222b"/>
+                  <path d="M28 42 Q32 45.5 36 42" stroke="#b86b50" stroke-width="2" fill="none" stroke-linecap="round"/>
+                  <!-- mũ nhọn -->
+                  <path d="M16 28 Q32 21 48 28 L34.5 3.5 Z" fill="#e84d5b"/>
+                  <path d="M16 28 Q32 21 48 28 Q32 33.5 16 28 Z" fill="#f4fbff"/>
+                  <circle cx="34.5" cy="4" r="3.6" fill="#f4fbff"/>
+                </svg>
+              </div>
+              <div id="slipBadge" class="slip-badge">Trượt!</div>
+            </div>
+          </div>
+
+          <div id="fxLayer" class="fx-layer"></div>
+
+          <div id="banner" class="banner hidden">
+            <div class="banner-card">
+              <div id="bannerTitle" class="banner-title"></div>
+              <div id="bannerSub" class="banner-sub"></div>
+              <button id="bannerReplay" class="btn btn-primary" type="button">Chơi lại</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="legend">
+          <span class="legend-item"><i class="sw sw-ice"></i> Băng cứng</span>
+          <span class="legend-item"><i class="sw sw-hole"></i> Hố nước</span>
+          <span class="legend-item"><i class="sw sw-start"></i> Xuất phát</span>
+          <span class="legend-item"><i class="sw sw-gift"></i> Hộp quà</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====== Bảng điều khiển ====== -->
+    <aside class="panel">
+
+      <section class="card card-hud">
+        <h2><span class="rune">✦</span> Trận chơi</h2>
+        <div class="stats">
+          <div class="stat"><span id="stepCount" class="stat-num">0</span><span class="stat-label">Bước</span></div>
+          <div class="stat win"><span id="winCount" class="stat-num">0</span><span class="stat-label">Thắng</span></div>
+          <div class="stat loss"><span id="lossCount" class="stat-num">0</span><span class="stat-label">Thua</span></div>
+        </div>
+        <p id="statusLine" class="status">Dùng phím mũi tên, WASD hoặc nút bấm để di chuyển tinh linh.</p>
+      </section>
+
+      <section class="card card-controls">
+        <h2><span class="rune">✦</span> Di chuyển</h2>
+        <div class="controls-row">
+          <div class="dpad">
+            <button class="dpad-btn up" data-action="3" type="button" aria-label="Lên">
+              <svg viewBox="0 0 24 24"><path d="M8 4 L17 12 L8 20" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+            <button class="dpad-btn left" data-action="0" type="button" aria-label="Trái">
+              <svg viewBox="0 0 24 24"><path d="M8 4 L17 12 L8 20" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+            <div class="dpad-center">❄</div>
+            <button class="dpad-btn right" data-action="2" type="button" aria-label="Phải">
+              <svg viewBox="0 0 24 24"><path d="M8 4 L17 12 L8 20" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+            <button class="dpad-btn down" data-action="1" type="button" aria-label="Xuống">
+              <svg viewBox="0 0 24 24"><path d="M8 4 L17 12 L8 20" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+          </div>
+          <div class="side-controls">
+            <button id="resetBtn" class="btn btn-ghost" type="button">Chơi lại</button>
+            <div class="switch-row">
+              <label class="switch">
+                <input type="checkbox" id="slipToggle">
+                <span class="track"></span>
+              </label>
+              <div class="switch-text">
+                <div class="switch-title">Mặt băng trơn</div>
+                <div class="switch-sub">Có thể trượt sang hướng khác</div>
+              </div>
+            </div>
+            <p class="hint">Phím tắt: ← ↓ → ↑ / WASD</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="card card-ai">
+        <h2><span class="rune">✦</span> Góc AI</h2>
+        <button id="trainBtn" class="btn btn-primary btn-block" type="button">Huấn luyện AI</button>
+        <div class="progress"><div id="progressFill"></div></div>
+        <div class="train-stats">
+          <span id="epLabel">Chưa huấn luyện</span>
+          <span id="srLabel"></span>
+        </div>
+        <div class="switch-row">
+          <label class="switch">
+            <input type="checkbox" id="qToggle" disabled>
+            <span class="track"></span>
+          </label>
+          <div class="switch-text">
+            <div class="switch-title">Bản đồ Q</div>
+            <div class="switch-sub">Mũi tên tốt nhất + màu giá trị ô</div>
+          </div>
+        </div>
+        <button id="aiPlayBtn" class="btn btn-ghost btn-block" type="button" disabled>AI chơi</button>
+        <p id="aiNote" class="note">AI chưa được huấn luyện.</p>
+      </section>
+
+    </aside>
+  </main>
+
+  <footer class="foot">Mô phỏng FrozenLake (Gymnasium) trên bản đồ 6×6 — hành động: 0 trái · 1 xuống · 2 phải · 3 lên</footer>
+
+  <script src="js/engine.js"></script>
+  <script src="js/ai.js"></script>
+  <script src="js/ui.js"></script>
+</body>
+</html>

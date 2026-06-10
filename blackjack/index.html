@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Blackjack · Đêm Hoàng Kim</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Playfair+Display:wght@600;700;900&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div class="backdrop" aria-hidden="true"></div>
+
+<header class="masthead">
+  <svg class="orn" viewBox="0 0 170 24" aria-hidden="true">
+    <g fill="none" stroke="rgba(212,175,55,.55)" stroke-width="1">
+      <line x1="0" y1="12" x2="170" y2="12"/>
+      <line x1="22" y1="6.5" x2="148" y2="6.5" opacity=".5"/>
+      <line x1="22" y1="17.5" x2="148" y2="17.5" opacity=".5"/>
+    </g>
+    <path d="M85,1.5 L95,12 L85,22.5 L75,12 Z" fill="#d4af37"/>
+    <path d="M111,6 L117,12 L111,18 L105,12 Z" fill="#caa948" opacity=".85"/>
+    <path d="M59,6 L65,12 L59,18 L53,12 Z" fill="#caa948" opacity=".85"/>
+    <circle cx="133" cy="12" r="2" fill="#caa948"/>
+    <circle cx="37" cy="12" r="2" fill="#caa948"/>
+  </svg>
+  <div class="masthead-titles">
+    <p class="masthead-over">Sòng bài · Đêm Hoàng Kim</p>
+    <h1>BLACKJACK</h1>
+    <p class="masthead-under">◆ &nbsp;Xì dách trả 3 đền 2&nbsp; ◆</p>
+  </div>
+  <svg class="orn" viewBox="0 0 170 24" aria-hidden="true">
+    <g fill="none" stroke="rgba(212,175,55,.55)" stroke-width="1">
+      <line x1="0" y1="12" x2="170" y2="12"/>
+      <line x1="22" y1="6.5" x2="148" y2="6.5" opacity=".5"/>
+      <line x1="22" y1="17.5" x2="148" y2="17.5" opacity=".5"/>
+    </g>
+    <path d="M85,1.5 L95,12 L85,22.5 L75,12 Z" fill="#d4af37"/>
+    <path d="M111,6 L117,12 L111,18 L105,12 Z" fill="#caa948" opacity=".85"/>
+    <path d="M59,6 L65,12 L59,18 L53,12 Z" fill="#caa948" opacity=".85"/>
+    <circle cx="133" cy="12" r="2" fill="#caa948"/>
+    <circle cx="37" cy="12" r="2" fill="#caa948"/>
+  </svg>
+</header>
+
+<main class="layout">
+  <section class="stage">
+    <div class="table">
+      <svg class="felt-arc" viewBox="0 0 640 150" aria-hidden="true">
+        <path id="feltArcPath" d="M70,128 A460,460 0 0 1 570,128" fill="none"/>
+        <text><textPath href="#feltArcPath" startOffset="50%" text-anchor="middle">BLACKJACK · TRẢ 3 ĐỀN 2</textPath></text>
+      </svg>
+
+      <div class="zone dealer">
+        <div class="zone-head">
+          <span class="zone-name">Nhà cái</span>
+          <span class="zone-score" id="dealerScore"></span>
+        </div>
+        <div class="hand" id="dealerHand"></div>
+      </div>
+
+      <div class="table-mid">
+        <div class="bet-spot">
+          <div class="bet-spot-ring"><span>CƯỢC</span></div>
+          <div class="bet-chips" id="betChips"></div>
+          <div class="bet-amount" id="betAmount">—</div>
+        </div>
+        <p class="felt-rule">Nhà cái rút đến 16 · dừng ở 17</p>
+      </div>
+
+      <div class="zone player">
+        <div class="ai-badge" id="aiBadge"></div>
+        <div class="hand" id="playerHand"></div>
+        <div class="zone-head">
+          <span class="zone-name">Người chơi</span>
+          <span class="zone-score" id="playerScore"></span>
+        </div>
+      </div>
+
+      <div class="banner" id="banner">
+        <div class="banner-rule" aria-hidden="true"></div>
+        <div class="banner-word" id="bannerWord"></div>
+        <div class="banner-delta" id="bannerDelta"></div>
+        <div class="banner-rule" aria-hidden="true"></div>
+      </div>
+    </div>
+
+    <div class="rail">
+      <div class="bank-plaque">
+        <span class="plaque-label">Ngân quỹ</span>
+        <span class="plaque-value"><span id="bankroll">1.000</span>&nbsp;<small>chip</small></span>
+      </div>
+      <button id="resetBank" class="btn ghost hidden" type="button">Nhận 1.000 chip</button>
+      <div class="rail-div" aria-hidden="true"></div>
+      <div class="chip-tray">
+        <button class="chip-btn" type="button" data-chip="5" aria-label="Đặt 5 chip"></button>
+        <button class="chip-btn" type="button" data-chip="25" aria-label="Đặt 25 chip"></button>
+        <button class="chip-btn" type="button" data-chip="100" aria-label="Đặt 100 chip"></button>
+        <button class="chip-btn" type="button" data-chip="500" aria-label="Đặt 500 chip"></button>
+        <button id="clearBet" class="btn ghost" type="button" disabled>Xóa cược</button>
+      </div>
+      <div class="action-tray">
+        <button id="hitBtn" class="btn ivory" type="button" disabled>Rút <kbd>H</kbd></button>
+        <button id="standBtn" class="btn ivory" type="button" disabled>Dừng <kbd>S</kbd></button>
+        <button id="dealBtn" class="btn gold" type="button" disabled>Chia bài <kbd>Enter</kbd></button>
+      </div>
+    </div>
+  </section>
+
+  <aside class="console">
+    <div class="console-frame">
+      <h2 class="console-title">CỐ VẤN A.I.</h2>
+      <p class="console-sub">Q-learning · 100.000 ván tự học</p>
+      <button id="trainBtn" class="btn gold wide" type="button">Huấn luyện AI</button>
+      <div class="progress"><div class="progress-fill" id="trainFill"></div></div>
+      <p class="progress-text" id="trainText">0 / 100.000 ván</p>
+      <div class="divider" aria-hidden="true"></div>
+      <p class="advice" id="advice"></p>
+      <label class="toggle-row disabled" id="aiToggleRow">
+        <span class="toggle-label">AI chơi<small>cược 25 chip mỗi ván</small></span>
+        <input type="checkbox" id="aiToggle" disabled>
+        <span class="switch" aria-hidden="true"></span>
+      </label>
+      <p class="ai-note" id="aiNote"></p>
+      <svg class="console-emblem" viewBox="0 0 140 64" aria-hidden="true">
+        <g fill="none" stroke="rgba(212,175,55,.45)" stroke-width="1">
+          <line x1="70" y1="58" x2="70" y2="6"/>
+          <line x1="70" y1="58" x2="38" y2="12"/>
+          <line x1="70" y1="58" x2="102" y2="12"/>
+          <line x1="70" y1="58" x2="16" y2="28"/>
+          <line x1="70" y1="58" x2="124" y2="28"/>
+          <line x1="70" y1="58" x2="4" y2="50"/>
+          <line x1="70" y1="58" x2="136" y2="50"/>
+          <path d="M30,49 A40,40 0 0 1 110,49" opacity=".8"/>
+          <path d="M42,52 A28,28 0 0 1 98,52" opacity=".55"/>
+        </g>
+        <path d="M70,50 L75,58 L70,63 L65,58 Z" fill="#d4af37"/>
+        <circle cx="70" cy="6" r="1.6" fill="#caa948"/>
+        <circle cx="16" cy="28" r="1.6" fill="#caa948"/>
+        <circle cx="124" cy="28" r="1.6" fill="#caa948"/>
+      </svg>
+      <p class="console-note">Phím tắt — H: Rút &nbsp;·&nbsp; S: Dừng &nbsp;·&nbsp; Enter: Chia bài</p>
+    </div>
+  </aside>
+</main>
+
+<script src="js/engine.js"></script>
+<script src="js/ai.js"></script>
+<script src="js/ui.js"></script>
+</body>
+</html>
